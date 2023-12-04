@@ -14,7 +14,6 @@ class LandingPageController extends Controller
 
     public function index()
     {
-        // dd(Auth::user());
         if (Auth::user()->usertype == 1) {
             return Inertia::render('Praxxys/Dashboard');
         } else if (Auth::user()->usertype == 2) {

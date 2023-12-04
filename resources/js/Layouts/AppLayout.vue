@@ -7,7 +7,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-
+import NotificationArea from '@/Components/NotificationArea.vue';
 defineProps({
     title: String,
 });
@@ -53,6 +53,9 @@ const logout = () => {
                                 </NavLink>
                                 <NavLink :href="route('cart')" :active="route().current('cart')">
                                     Cart
+                                </NavLink>
+                                <NavLink :href="route('historytransaction')" :active="route().current('historytransaction')">
+                                    History
                                 </NavLink>
                             </div>
                         </div>
@@ -278,6 +281,8 @@ const logout = () => {
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-white shadow">
+            <notification-area  :messages="$page.props.flash.message" />
+
                 <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>

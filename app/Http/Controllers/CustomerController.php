@@ -8,8 +8,10 @@ use App\Http\Requests\checkOutFormRequest;
 use App\Http\Requests\deleteCartItemFormRequest;
 use App\Http\Requests\QtyActionRequest;
 use App\Models\CustomerCart;
+use App\Models\HistoryTransaction;
 use App\Models\User;
-use Illuminate\Http\Request;
+
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -31,7 +33,7 @@ class CustomerController extends Controller
             ]);
         });
 
-        return Redirect::back()->with('message', 'Add To cart Successful');
+        return Redirect::back()->with('message', [NotificationService::notificationItem('success', '', 'Add to Cart Successful')]);
     }
 
 
@@ -49,32 +51,55 @@ class CustomerController extends Controller
         $customerCart = CustomerCart::findOrFail($validated_data['id']);
         DB::transaction(function () use ($validated_data, $customerCart) {
             $customerCart->update([
-                'qty'=>$validated_data['qty']
+                'qty' => $validated_data['qty']
             ]);
         });
-        
+
         return Redirect::back();
     }
 
-    public function deleteCartItem(deleteCartItemFormRequest $request){
+    public function deleteCartItem(deleteCartItemFormRequest $request)
+    {
         $validated_data = $request->validated();
-        
-        DB::transaction(function () use($validated_data){
+
+        DB::transaction(function () use ($validated_data) {
             $cutomerCart = CustomerCart::findOrFail($validated_data['id']);
             $cutomerCart->delete();
         });
-        
-        
-        return Redirect::back()->with('message', 'Delete Item From Cart Successful');
+
+
+        return Redirect::back()->with('message', [NotificationService::notificationItem('success', '', 'Delete item from Cart Successful')]);
     }
 
-    public function checkout(checkOutFormRequest $request){
+    public function checkout(checkOutFormRequest $request)
+    {
         $validated_data = $request->validated();
-        
-        $link = HelpersPaymentService::CheckOut($validated_data);
-        
-        return Redirect::away($link);
-        // dd($link);
 
+        $link = HelpersPaymentService::CheckOut($validated_data);
+
+        return Redirect::away($link);
+    }
+
+    public function historyTransaction()
+    {
+        $history = HistoryTransaction::limit(10)->paginate(10);
+        return Inertia::render('PraxxysCustomer/HistoryTransaction', [
+            'History' => $history
+        ]);
+    }
+
+    public function success()
+    {
+        return Inertia::render('PraxxysCustomer/Transactions/Success');
+    }
+
+    public function failure()
+    {
+        return Inertia::render('PraxxysCustomer/Transactions/Failure');
+    }
+
+    public function canceled()
+    {
+        return Inertia::render('PraxxysCustomer/Transactions/Canceled');
     }
 }

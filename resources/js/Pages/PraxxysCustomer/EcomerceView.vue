@@ -52,7 +52,10 @@ const productToCart = reactive({
 
 function addToCart(id) {
     productToCart.product_id = id;
-    router.post('/addtocart', productToCart);
+    router.post('/addtocart', productToCart,{
+        preserveScroll:true,
+        preserveState:true
+    });
 }
 
 </script>

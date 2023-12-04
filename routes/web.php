@@ -41,4 +41,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::post('/updateqty',[CustomerController::class,'qtyAction'])->name('updateqty');
     Route::post('/deleteCartItem',[CustomerController::class,'deleteCartItem'])->name('deleteCartItem');
     Route::post('/checkout',[CustomerController::class,'checkout'])->name('checkout');
+
+    Route::get('/historyTransaction',[CustomerController::class,'historyTransaction'])->name('historytransaction');
+
+
+    Route::get('/success',[CustomerController::class,'success'])->name('success');
+    Route::get('/failure',[CustomerController::class,'failure'])->name('failure');
+    Route::get('/canceled',[CustomerController::class,'canceled'])->name('canceled');
 });

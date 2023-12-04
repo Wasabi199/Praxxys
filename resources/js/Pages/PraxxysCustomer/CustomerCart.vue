@@ -3,6 +3,11 @@
         <template #header>
             <span>Cart</span>
         </template>
+        <div class="p-4" v-if="$page.props.errors">
+            <div class="bg-red-500 p-2 rounded-lg text-white" v-for="errors in $page.props.errors" v-bind:key="errors.key">
+                <span>• {{ errors }}</span>
+            </div>
+        </div>
         <div class="p-10 mt-5 gap-x-4" v-for="product in CustomerCart.data" v-bind:key="product.id">
             <div class="flex justify-around rounded-md shadow-md">
                 <div>
@@ -117,7 +122,7 @@ const checkOutForm = reactive({
 
 
 // Method
-function qtyAction(action, cartProduct) {
+const qtyAction = (action, cartProduct) => {
     qtyForm.id = cartProduct.id;
 
     if (action == 'add') {
@@ -125,7 +130,11 @@ function qtyAction(action, cartProduct) {
     } else {
         qtyForm.qty = cartProduct.qty != 1 ? cartProduct.qty - 1 : cartProduct.qty = 1;
     }
-    router.post('/updateqty', qtyForm);
+
+    router.post('/updateqty', qtyForm, {
+        preserveState: true,
+        preserveScroll: true
+    });
 }
 
 function toDeleteCart(product) {
@@ -143,8 +152,8 @@ function confirmDelete() {
     })
 }
 
-function checkout(){
-    router.post('/checkout',checkOutForm)
+function checkout() {
+    router.post('/checkout', checkOutForm)
 }
 
 

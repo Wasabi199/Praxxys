@@ -27,5 +27,15 @@ class checkOutFormRequest extends FormRequest
             'products'=>'required|array',
             'total'=>'required'
         ];
+
+
+    }
+    public function messages()
+    {
+        return[
+            'products.required'=>'Please select atlease 1 item to Checkout',
+            'products.array'=>'Invalid Type',
+            'total.required'=>'Total value is required'
+        ];
     }
 }
