@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a38851130fdd9b8f9fcf3bba71f43548",
+    "content-hash": "883d9bba398c2983bc112295db693df4",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2261,6 +2261,163 @@
             "time": "2023-08-05T12:09:49+00:00"
         },
         {
+            "name": "lloricode/laravel-paymaya-sdk",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lloricode/laravel-paymaya-sdk.git",
+                "reference": "3935dbed008e2724ad5ed6656fe850a19af78db1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lloricode/laravel-paymaya-sdk/zipball/3935dbed008e2724ad5ed6656fe850a19af78db1",
+                "reference": "3935dbed008e2724ad5ed6656fe850a19af78db1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/contracts": "^8.83.27|^9.51.0|^10.0.0",
+                "lloricode/paymaya-sdk-php": "^2.0.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.1"
+            },
+            "require-dev": {
+                "composer-runtime-api": "^2.2.2",
+                "laravel/pint": "^1.5",
+                "nesbot/carbon": "^2.63",
+                "orchestra/testbench": "^6.25.1|^7.22.0|^8.0.0",
+                "pestphp/pest": "^1.22.4",
+                "pestphp/pest-plugin-laravel": "^1.4",
+                "phpstan/extension-installer": "^1.2",
+                "phpstan/phpstan-deprecation-rules": "^1.1.1",
+                "phpstan/phpstan-phpunit": "^1.3.4",
+                "rector/rector": "^0.15.16",
+                "spatie/laravel-ray": "^1.32.2",
+                "spatie/x-ray": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lloricode\\LaravelPaymaya\\LaravelPaymayaServiceProvider"
+                    ],
+                    "aliases": {
+                        "PaymayaSDKCheckoutClient": "Lloricode\\LaravelPaymaya\\Facades\\CheckoutFacade",
+                        "PaymayaSDKClient": "Lloricode\\LaravelPaymaya\\Facades\\ClientFacade",
+                        "PaymayaSDKCustomizationClient": "Lloricode\\LaravelPaymaya\\Facades\\CustomizationFacade",
+                        "PaymayaSDK": "Lloricode\\LaravelPaymaya\\Facades\\PaymayaFacade",
+                        "PaymayaSDKWebhhokClient": "Lloricode\\LaravelPaymaya\\Facades\\WebhookFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lloricode\\LaravelPaymaya\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lloric Mayuga Garcia",
+                    "email": "lloricode@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "SDK for Paymaya using Laravel",
+            "homepage": "https://github.com/lloricode/laravel-paymaya-sdk",
+            "keywords": [
+                "laravel",
+                "lloricode",
+                "paymaya",
+                "php",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/lloricode/laravel-paymaya-sdk/issues",
+                "source": "https://github.com/lloricode/laravel-paymaya-sdk"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/lloricde",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-28T00:58:30+00:00"
+        },
+        {
+            "name": "lloricode/paymaya-sdk-php",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lloricode/paymaya-sdk-php.git",
+                "reference": "9b7ee32d265bdbf5dbd4e81a59fc40fc1b62ef02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lloricode/paymaya-sdk-php/zipball/9b7ee32d265bdbf5dbd4e81a59fc40fc1b62ef02",
+                "reference": "9b7ee32d265bdbf5dbd4e81a59fc40fc1b62ef02",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.5",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "composer-runtime-api": "^2.2.2",
+                "laravel/pint": "^1.5",
+                "mockery/mockery": "^1.4",
+                "pestphp/pest": "^1.22",
+                "phly/keep-a-changelog": "^2.11",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "rector/rector": "^0.15.16",
+                "spatie/ray": "^1.36",
+                "spatie/x-ray": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lloricode\\Paymaya\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lloric Mayuga Garcia",
+                    "email": "lloricode@gmail.com",
+                    "homepage": "https://www.linkedin.com/in/lloricode",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Paymaya SDK for PHP",
+            "homepage": "https://github.com/lloricode/paymaya-sdk-php",
+            "keywords": [
+                "lloricode",
+                "paymaya",
+                "php",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/lloricode/paymaya-sdk-php/issues",
+                "source": "https://github.com/lloricode/paymaya-sdk-php"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/lloricode",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-28T00:50:29+00:00"
+        },
+        {
             "name": "mobiledetect/mobiledetectlib",
             "version": "2.8.41",
             "source": {
@@ -3723,6 +3880,66 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
+        },
+        {
+            "name": "spatie/laravel-package-tools",
+            "version": "1.16.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-package-tools.git",
+                "reference": "cc7c991555a37f9fa6b814aa03af73f88026a83d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/cc7c991555a37f9fa6b814aa03af73f88026a83d",
+                "reference": "cc7c991555a37f9fa6b814aa03af73f88026a83d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9.28|^10.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^7.7|^8.0",
+                "pestphp/pest": "^1.22",
+                "phpunit/phpunit": "^9.5.24",
+                "spatie/pest-plugin-test-time": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelPackageTools\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tools for creating Laravel packages",
+            "homepage": "https://github.com/spatie/laravel-package-tools",
+            "keywords": [
+                "laravel-package-tools",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-package-tools/issues",
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.16.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-08-23T09:04:39+00:00"
         },
         {
             "name": "symfony/console",

@@ -26,6 +26,7 @@ class ProductFactory extends Factory
             'description'=>$this->faker->text($maxNbChars = 200),
             'date'=>Carbon::now(),
             'time'=>Carbon::now()->format('h:i:s'),
+            'price'=>$this->faker->numberBetween($min = 1, $max = 100),
         ];
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\MainController;
-use Illuminate\Foundation\Application;
+
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,17 +19,11 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
     return Redirect::route('login');
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
-    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [LandingPageController::class, 'index'])->name('dashboard');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'Admin'])->group(function () {
     Route::get('/products', [MainController::class, 'products'])->name('products');
     Route::get('/create', [MainController::class, 'createProducts'])->name('create.products');
 
@@ -36,5 +31,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::delete('/deleteProduct', [MainController::class, 'deleteProduct'])->name('product.delete');
     Route::post('/updateProduct', [MainController::class, 'updateProduct'])->name('product.update');
 
-    Route::get('/videoPlayer',[MainController::class,'videoPlayer'])->name('videoplayer');
+    Route::get('/videoPlayer', [MainController::class, 'videoPlayer'])->name('videoplayer');
+});
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'Customer'])->group(function () {
+
+    Route::post('/addtocart',[CustomerController::class,'addToCart'])->name('addToCart');
+    Route::get('/cart',[CustomerController::class,'cart'])->name('cart');
+    Route::post('/updateqty',[CustomerController::class,'qtyAction'])->name('updateqty');
+    Route::post('/deleteCartItem',[CustomerController::class,'deleteCartItem'])->name('deleteCartItem');
+    Route::post('/checkout',[CustomerController::class,'checkout'])->name('checkout');
 });

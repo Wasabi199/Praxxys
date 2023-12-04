@@ -15,12 +15,17 @@ class Product extends Model
         'description',
         'date',
         'time',
+        'price'
     ];
 
     public function productImage(): HasMany
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    // public function customerCart():HasMany{
+    //     return $this->hasMany(CustomerCart::class);
+    // }
 
     public function scopeFilter($query, array $filters)
     {
