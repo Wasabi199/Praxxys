@@ -78,7 +78,6 @@ class CustomerController extends Controller
         $link = HelpersPaymentService::CheckOut($validated_data);
         // 
         return Inertia::location($link);
-        // return Redirect::back()->with('link',$link);
     }
 
 
