@@ -5,7 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\User;
+use Database\Factories\ProductImageFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,7 +32,7 @@ class DatabaseSeeder extends Seeder
             'usertype'=>2
         ]);
 
-        Product::factory(50)->create();
+        Product::factory(50)->has(ProductImage::factory(1),'productImage')->create();
 
     }
 }

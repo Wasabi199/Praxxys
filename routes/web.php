@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('/historyTransaction',[CustomerController::class,'historyTransaction'])->name('historytransaction');
 
+    Route::get('/redirect/{link}',[CustomerController::class,'redirect'])->name('redirect');
 
     Route::get('/success',[CustomerController::class,'success'])->name('success');
     Route::get('/failure',[CustomerController::class,'failure'])->name('failure');

@@ -76,9 +76,11 @@ class CustomerController extends Controller
         $validated_data = $request->validated();
 
         $link = HelpersPaymentService::CheckOut($validated_data);
-
-        return Redirect::away($link);
+        // 
+        return Inertia::location($link);
+        // return Redirect::back()->with('link',$link);
     }
+
 
     public function historyTransaction()
     {

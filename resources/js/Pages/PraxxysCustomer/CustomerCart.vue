@@ -11,7 +11,7 @@
         <div class="p-10 mt-5 gap-x-4" v-for="product in CustomerCart.data" v-bind:key="product.id">
             <div class="flex justify-around rounded-md shadow-md">
                 <div>
-                    <img class="mb-2 h-52" src="/Images/Sticker1.png">
+                    <img class="mb-2 h-52" :src="product.filename??'/Images/Sticker1.png'">
                     <span class="pl-2 text-lg font-semibold capitalize">{{ product.name }}</span>
                     <h5 class="pl-2 text-blue-300">₱{{ product.price }}.00</h5>
                 </div>

@@ -17,7 +17,7 @@ class LandingPageController extends Controller
         if (Auth::user()->usertype == 1) {
             return Inertia::render('Praxxys/Dashboard');
         } else if (Auth::user()->usertype == 2) {
-            $products = Product::with('productImage')->limit(20)->paginate(20);
+            $products = Product::with('productImage')->with('productImage')->limit(20)->paginate(20);
             return Inertia::render('PraxxysCustomer/EcomerceView', [
                 'Products' => $products
             ]);

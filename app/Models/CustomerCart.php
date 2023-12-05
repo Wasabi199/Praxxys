@@ -27,6 +27,9 @@ class CustomerCart extends Model
 
 
     public function scopeCartOwner($query){
-        $query->where('user_id',Auth::user()->id)->join('products','customer_carts.product_id','=','products.id')->select('customer_carts.*','price','name');
+        $query->where('user_id',Auth::user()->id)->join('products',function($query){
+            $query->on('customer_carts.product_id','=','products.id')
+            ->join('product_images','products.id','=','product_images.product_id');
+        })->select('customer_carts.*','price','name','filename');
     }
 }
