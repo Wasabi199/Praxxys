@@ -80,14 +80,14 @@
                             <span>Sales</span>
                         </div>
                         <div class="flex">
-                            <div class="py-2 px-4 rounded-md" @click="chart = 'area'"
-                                :class="chart == 'area' ? 'bg-blue-500 text-white' : ''">Area</div>
-                            <div class="py-2 px-4 rounded-md" @click="chart = 'donut'"
-                                :class="chart == 'donut' ? 'bg-blue-500 text-white' : ''">Donut</div>
+                            <div class="py-2 px-4 rounded-md" @click="data.chart = 'area'"
+                                :class="data.chart == 'area' ? 'bg-blue-500 text-white' : ''">Area</div>
+                            <div class="py-2 px-4 rounded-md" @click="data.chart = 'donut'"
+                                :class="data.chart == 'donut' ? 'bg-blue-500 text-white' : ''">Donut</div>
                         </div>
                     </div>
                     <hr>
-                    <div v-if="chart == 'area'">
+                    <div v-if="data.chart == 'area'">
                         <LineChart class="h-96" />
                     </div>
                     <div v-else>
@@ -104,7 +104,7 @@
                                 {{ 3 }}
                             </div>
                             <div>
-                                <svg @click="chatCollapsible = !chatCollapsible" v-if="chatCollapsible"
+                                <svg @click="data.chatCollapsible = !data.chatCollapsible" v-if="data.chatCollapsible"
                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-5 h-5 m-auto">
                                     <path fill-rule="evenodd"
@@ -112,7 +112,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
 
-                                <svg @click="chatCollapsible = !chatCollapsible" v-else xmlns="http://www.w3.org/2000/svg"
+                                <svg @click="data.chatCollapsible = !data.chatCollapsible" v-else xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 m-auto">
                                     <path fill-rule="evenodd"
                                         d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
@@ -120,7 +120,7 @@
                                 </svg>
                             </div>
 
-                            <svg @click="contactCollapsable = !contactCollapsable" xmlns="http://www.w3.org/2000/svg"
+                            <svg @click="data.contactCollapsable = ! data.contactCollapsable" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
@@ -136,9 +136,9 @@
 
                     </div>
                     <hr>
-                    <div v-if="chatCollapsible"
+                    <div v-if="data.chatCollapsible"
                         class=" bg-white w-full shadow-lg transition-shadow duration-300 ease-in transform overflow-x-hidden"
-                        :class="{ '-translate-y-0 h-fit': chatCollapsible, '-translate-y-full h-0': !chatCollapsible }">
+                        :class="{ '-translate-y-0 h-fit': data.chatCollapsible, '-translate-y-full h-0': !data.chatCollapsible }">
                         <div class="px-4 h-60 overflow-y-auto">
                             <div class="p-2">
                                 <div class="flex justify-between text-sm">
@@ -204,10 +204,10 @@
                         </div>
 
                         <transition name="sidebar-slide" mode="out-in">
-                            <div v-if="contactCollapsable" class="fixed inset-0  "></div>
+                            <div v-if="data.contactCollapsable" class="fixed inset-0  "></div>
                         </transition>
                         <div class="fixed h-full  w-full shadow-lg top-0 right-0 transform transition-transform duration-300 ease-in-out"
-                            :class="{ 'translate-x-0': contactCollapsable, 'translate-x-full': !contactCollapsable }">
+                            :class="{ 'translate-x-0': data.contactCollapsable, 'translate-x-full': ! data.contactCollapsable }">
                             <div>
                                 <div class="h-60 overflow-y-scroll bg-[#343a40]">
                                     <div class="flex p-2 w-full gap-2">
@@ -346,8 +346,8 @@
                                         d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
                                 </svg>
                                 <div class="flex gap-2">
-                                    <input  v-model="todo.list1" class="h-6 w-6 my-auto" type="checkbox" />
-                                    <p :class="todo.list1 ? 'line-through' : ''" class="font-bold">Design a nice theme</p>
+                                    <input v-model="data.todo.list1" class="h-6 w-6 my-auto" type="checkbox" />
+                                    <p :class="data.todo.list1 ? 'line-through' : ''" class="font-bold">Design a nice theme</p>
                                     <div class="gap-1 flex h-fit my-auto px-1 rounded-md bg-red-500 text-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 my-auto">
@@ -360,7 +360,7 @@
 
 
                             </div>
-                            <div v-if="activeTodo == 1" class="flex justify-end">
+                            <div v-if="data.activeTodo == 1" class="flex justify-end">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-4 h-4 text-red-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -377,8 +377,9 @@
                                         d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
                                 </svg>
                                 <div class="flex gap-2">
-                                    <input v-model="todo.list2" class="h-6 w-6 my-auto" type="checkbox" />
-                                    <p :class="todo.list2 ? 'line-through' : ''" class="font-bold">Let theme shine like a star</p>
+                                    <input v-model="data.todo.list2" class="h-6 w-6 my-auto" type="checkbox" />
+                                    <p :class="data.todo.list2 ? 'line-through' : ''" class="font-bold">Let theme shine like a
+                                        star</p>
                                     <div class="gap-1 flex h-fit my-auto px-1 rounded-md bg-yellow-500 text-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 my-auto">
@@ -389,7 +390,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="activeTodo == 2" class="flex justify-end">
+                            <div v-if="data.activeTodo == 2" class="flex justify-end">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-4 h-4 text-red-500">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -404,41 +405,32 @@
         </div>
     </Sidebar>
 </template>
-<script>
+<script setup lang="ts">
 import LineChart from './Partials/Charts/LineChart.vue';
 import Sidebar from './Partials/Sidebar.vue';
 import DoughnutChart from './Partials/Charts/DoughnutChart.vue';
-export default {
-    setup() {
+import { reactive } from 'vue';
 
-    },
-    components: {
-        Sidebar,
-        LineChart,
-        DoughnutChart,
-    },
-    data() {
-        return {
-            chart: 'area',
-            chatCollapsible: true,
-            contactCollapsable: false,
-            activeTodo: 1,
-            todo: {
-                list1: false,
-                list2: false,
-                list3: false,
-                list4: false,
-                list5: false,
-                list6: false,
-            }
-        }
-    },
-    methods: {
-        active(num) {
-            this.activeTodo = num;
-        }
+
+const data = reactive({
+    chart: 'area',
+    chatCollapsible: true,
+    contactCollapsable: false,
+    activeTodo: 1,
+    todo: {
+        list1: false,
+        list2: false,
+        list3: false,
+        list4: false,
+        list5: false,
+        list6: false,
     }
+});
+
+function active(num){
+    this.activeTodo = num;
 }
+
 </script>
 <style scoped>
 .sidebar-slide-enter-active,

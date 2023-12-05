@@ -1,11 +1,13 @@
 <template>
     <div class="flex w-full">
-        <div class=" z-10  md:z-0" :class="isOpen ? 'md:w-1/6' : ''">
-            <div v-if="isOpen" class="fixed inset-0 md:hidden" :class="{ 'opacity-100': isOpen, 'opacity-0': !isOpen }"
-                @click="isOpen = false">
+        <notification-area  :messages="$page.props.flash.message" />
+
+        <div class=" z-10  md:z-0" :class="data.isOpen ? 'md:w-1/6' : ''">
+            <div v-if="data.isOpen" class="fixed inset-0 md:hidden" :class="{ 'opacity-100': data.isOpen, 'opacity-0': !data.isOpen }"
+                @click="data.isOpen = false">
             </div>
             <div class="fixed h-full bg-[#343a40] w-64 shadow-lg top-0 left-0 transition-transform duration-300 ease-in-out transform"
-                :class="{ '-translate-x-0': isOpen, '-translate-x-full': !isOpen }">
+                :class="{ '-translate-x-0': data.isOpen, '-translate-x-full': !data.isOpen }">
                 <!-- Sidebar content goes here -->
                 <div class="px-5 py-2">
                     <!-- Your sidebar links go here -->
@@ -104,8 +106,8 @@
                 </div>
             </div>
         </div>
-        <div :class="isOpen == true ? ' md:w-5/6' : 'w-full'">
-            <div v-if="search" class="bg-white shadow-sm max-h-14 h-14 border">
+        <div :class="data.isOpen == true ? ' md:w-5/6' : 'w-full'">
+            <div v-if="data.search" class="bg-white shadow-sm max-h-14 h-14 border">
                 <div class=" py-4 px-4 flex justify-between">
                     <svg @click="sidenav" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -114,7 +116,7 @@
                     </svg>
                     <div class="flex w-1/2  justify-evenly md:w-1/6">
                         <div>
-                            <svg @click="search = !search" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            <svg @click="data.search = !data.search" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -313,7 +315,7 @@
                         </svg>
 
                     </button>
-                    <button @click="search = !search">
+                    <button @click="data.search = !data.search">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd"
                                 d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
@@ -329,32 +331,26 @@
         </div>
     </div>
 </template>
-<script>
+<script setup lang="ts">
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import { Link } from '@inertiajs/vue3';
-export default {
-    setup() {
+import { Link, router } from '@inertiajs/vue3';
+import { reactive } from 'vue';
+import NotificationArea from '@/Components/NotificationArea.vue';
 
-    },
-    components: {
-        Popover, PopoverButton, PopoverPanel, Link
-    },
-    data() {
-        return {
-            isOpen: false,
-            search: true,
-        }
-    },
-    methods: {
-        sidenav() {
-            console.log('clicked');
-            this.isOpen = !this.isOpen
-        },
 
-        logout(){
-            this.$inertia.post(route('logout'))
-        }
-    }
 
+const data = reactive({
+    isOpen: true,
+    search: true
+})
+
+function sidenav() {
+    console.log('clicked');
+    data.isOpen = !data.isOpen
 }
+
+function logout() {
+    router.post('/logout')
+}
+
 </script>

@@ -7,6 +7,7 @@ use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Services\NotificationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Request as QueryRequest;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,7 @@ use Inertia\Inertia;
 class MainController extends Controller
 {
     //
- 
+
 
     public function products(QueryRequest $request)
     {
@@ -43,6 +44,7 @@ class MainController extends Controller
             $product = Product::create([
                 'name' => $validated_data['name'],
                 'category' => $validated_data['category'],
+                'price' => $validated_data['price'],
                 'description' => $validated_data['description'],
                 'date' => $validated_data['date'],
                 'time' => Carbon::now()->format('h:i:s'),
@@ -52,31 +54,30 @@ class MainController extends Controller
                 if (is_array($validated_data['files'])) {
                     foreach ($validated_data['files'] as $file) {
                         $product->productImage()->create([
-                            'filename' => $file->storePublicly('ProductImages',  ['disk' => 'public'])
+                            'filename' =>'storage/'.$file->storePublicly('ProductImages',  ['disk' => 'public'])
                         ]);
                     }
                 } else {
                     $product->productImage()->create([
-                        'filename' => $validated_data['files']->storePublicly('ProductImages',  ['disk' => 'public'])
+                        'filename' => 'storage/'.$validated_data['files']->storePublicly('ProductImages',  ['disk' => 'public'])
                     ]);
                 }
             }
         });
 
-        return Redirect::route('products');
+        return Redirect::route('products')->with('message',[NotificationService::notificationItem('success','','Product Created Success')]);
     }
 
     public function deleteProduct(DeleteProductRequest $request)
     {
         $validated_data = $request->validated();
-
         DB::transaction(function () use ($validated_data) {
 
             $product = Product::findOrFail($validated_data['id']);
             $product->delete();
         });
 
-        return Redirect::back();
+        return Redirect::back()->with('message',[NotificationService::notificationItem('success','','Product Deleted Success')]);
     }
 
     public function updateProduct(UpdateProductRequest $request)
@@ -108,10 +109,11 @@ class MainController extends Controller
             }
         });
 
-        return Redirect::back();
+        return Redirect::back()->with('message',[NotificationService::notificationItem('success','','Product Updated Success')]);
     }
 
-    public function videoPlayer(){
+    public function videoPlayer()
+    {
         return Inertia::render('Praxxys/VideoPlayer');
     }
 }

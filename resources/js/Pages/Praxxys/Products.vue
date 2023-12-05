@@ -33,41 +33,16 @@
                     <table class="w-full text-sm text-left text-gray-500 border table-fixed">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                             <tr>
-                                <th scope="col" @click="sort('id')" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3">
                                     <div class="flex justify-between">
                                         <span>ID</span>
-                                        <svg v-show="this.form.sort == 'asc' && this.form.name == 'id'"
-                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                            class="bi bi-sort-down-alt" viewBox="0 0 16 16">
-                                            <path
-                                                d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z" />
-                                        </svg>
 
-                                        <svg v-show="this.form.sort == 'desc' && this.form.name == 'id'
-                                            " xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-sort-down" viewBox="0 0 16 16">
-                                            <path
-                                                d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293V2.5zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z" />
-                                        </svg>
                                     </div>
                                 </th>
-                                <th scope="col" class="px-6 py-3" @click="sort('area_name')">
+                                <th scope="col" class="px-6 py-3">
                                     <div class="flex justify-between">
                                         <span>NAME</span>
-                                        <svg v-show="this.form.sort == 'asc' && this.form.name == 'area_name'
-                                            " xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-sort-down-alt" viewBox="0 0 16 16">
-                                            <path
-                                                d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z" />
-                                        </svg>
 
-                                        <svg v-show="this.form.sort == 'desc' &&
-                                            this.form.name == 'area_name'
-                                            " xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-sort-down" viewBox="0 0 16 16">
-                                            <path
-                                                d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293V2.5zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z" />
-                                        </svg>
                                     </div>
                                 </th>
                                 <th>CATEGORY</th>
@@ -113,22 +88,23 @@
             </div>
 
         </div>
-        <Modal :show="deleteProductModal" :closeable="true" @close="deleteProductModal = !deleteProductModal">
+        <Modal :show="data.deleteProductModal" :closeable="true"
+            @close="data.deleteProductModal = !data.deleteProductModal">
             <div class="p-5">
                 <div class="flex justify-between">
                     <span class="font-semibold text-xl">DELETE</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 cursor-pointer"
-                        @click="deleteProductModal = !deleteProductModal">
+                        @click="data.deleteProductModal = !data.deleteProductModal">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div class="p-5 space-y-10">
                     <div class="text-center">Do you really want to Delete this Product <span class="font-bold">{{
-                        this.selectedProduct.name }}</span>?</div>
+                        data.selectedProduct.name }}</span>?</div>
                     <div class="flex justify-around">
-                        <button @click="deleteProductModal = !deleteProductModal"
+                        <button @click="data.deleteProductModal = !data.deleteProductModal"
                             class="bg-red-500 p-4 rounded-md text-sm text-white font-bold">CANCEL</button>
                         <button @click="confirmDeleteProduct"
                             class="bg-green-500 p-4 rounded-md text-sm text-white font-bold">CONFIRM</button>
@@ -138,13 +114,14 @@
             </div>
         </Modal>
 
-        <Modal :show="updateProductModal" :closeable="true" @close="updateProductModal = !updateProductModal">
+        <Modal :show="data.updateProductModal" :closeable="true"
+            @close="data.updateProductModal = !data.updateProductModal">
             <div class="p-5">
                 <div class="flex justify-between">
                     <span class="font-semibold text-xl">UPDATE</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 cursor-pointer"
-                        @click="updateProductModal = !updateProductModal">
+                        @click="data.updateProductModal = !data.updateProductModal">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -155,7 +132,6 @@
                             <label>Product Name</label>
                             <input v-model="productToUpdate.name" type="text" class="w-full rounded-md h-8 text-xs"
                                 placeholder="Product Name">
-                            <InputError class="mt-2" :message="productToUpdate.errors.name" />
                         </div>
                         <div>
                             <label>Product Category</label>
@@ -165,21 +141,18 @@
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
-                            <InputError class="mt-2" :message="productToUpdate.errors.category" />
 
                         </div>
                         <div>
                             <label>Product Description</label>
                             <textarea v-model="productToUpdate.description" class="w-full rounded-md h-20 text-xs"
                                 placeholder="Descriptions..."></textarea>
-                            <InputError class="mt-2" :message="productToUpdate.errors.description" />
 
                         </div>
                         <div>
                             <label>Date</label>
                             <input v-model="productToUpdate.date" type="date" class="w-full rounded-md h-8 text-xs"
                                 placeholder="Product Name">
-                            <InputError class="mt-2" :message="productToUpdate.errors.date" />
 
                         </div>
                         <div>
@@ -197,128 +170,99 @@
         </Modal>
     </Sidebar>
 </template>
-<script>
+
+<script setup lang="ts">
 import Pagination from './Partials/Pagination/Pagination.vue';
 import Sidebar from './Partials/Sidebar.vue';
 import { pickBy, throttle } from "lodash";
 import Modal from '@/Components/Modal.vue';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import InputError from '@/Components/InputError.vue';
+import { defineComponent, reactive, watch } from 'vue';
+import { router } from '@inertiajs/vue3';
 
-import 'sweetalert2/src/sweetalert2.scss';
-export default {
-    setup() {
+const props = defineProps({
+    Products: Object,
+    Filters: Object,
+});
 
-    },
-    components: {
-        Sidebar,
-        Pagination,
-        Modal,
-        InputError
-    },
-    props: {
-        Products: Object,
-        Filters: Object,
+const data = reactive({
+    deleteProductModal: false,
+    updateProductModal: false,
 
-    },
-    data() {
-        return {
-            deleteProductModal: false,
-            updateProductModal: false,
-
-            selectedProduct: Object,
-            selectedUpdateProduct: Object,
-            productToDelete: this.$inertia.form({
-                id: Number
-            }),
-
-            productToUpdate: this.$inertia.form({
-                id: Number,
-                name: '',
-                category: '',
-                description: '',
-                date: '',
-                files: File,
-            }),
-
-            form: {
-                view: this.Filters.view,
-                search: this.Filters.search,
-                category: this.Filters.category,
-            },
+    selectedProduct: Object,
+    selectedUpdateProduct: Object,
+});
 
 
-        }
-    },
-    watch: {
-        form: {
-            deep: true,
-            handler: throttle(function () {
-                this.$inertia.get(route("products"), pickBy(this.form), {
-                    preserveState: true,
-                    preserveScroll: true,
-                });
-            }, 600),
-        },
-    },
-    methods: {
-        create() {
-            this.$inertia.get(route('create.products'));
-        },
+const productToDelete = reactive({
+    id: ''
+});
 
-        selectProductToDelete(product) {
-            this.selectedProduct = product
-            this.deleteProductModal = !this.deleteProductModal
-        },
+const productToUpdate = reactive({
+    id: Number,
+    name: '',
+    category: '',
+    description: '',
+    date: '',
+    files: File,
+});
 
-        confirmDeleteProduct() {
-            this.productToDelete.id = this.selectedProduct.id,
-                this.productToDelete.delete(route('product.delete'), {
-                    onSuccess: (visit) => {
-                        this.deleteProductModal = !this.deleteProductModal
-                        Swal.fire(
-                            'Success!',
-                            'Product Deleted!',
-                            'success'
-                        );
-                    }
-                });
-        },
+const form = reactive({
+    view: props.Filters.view,
+    search: props.Filters.search,
+    category: props.Filters.category,
+});
 
-        selectProductToUpdate(product) {
-            this.selectedUpdateProduct = product;
-            this.updateProductModal = !this.updateProductModal;
-        },
-
-        selectImage(e) {
-            this.productToUpdate.files = e.target.files;
-        },
-
-        submit() {
-            this.productToUpdate.id = this.selectedUpdateProduct.id;
-
-            this.productToUpdate.name != '' ? this.productToUpdate.name : this.productToUpdate.name = this.selectedUpdateProduct.name;
-            this.productToUpdate.category != '' ? this.productToUpdate.category : this.productToUpdate.category = this.selectedUpdateProduct.category;
-            this.productToUpdate.description != '' ? this.productToUpdate.description : this.productToUpdate.description = this.selectedUpdateProduct.description;
-            this.productToUpdate.date != '' ? this.productToUpdate.date : this.productToUpdate.date = this.selectedUpdateProduct.date;
-
-            this.productToUpdate.post(route('product.update'), {
-                onSuccess: (visit) => {
-                    this.productToUpdate.reset();
-                    this.updateProductModal = !this.updateProductModal;
-
-                    Swal.fire(
-                        'Success!',
-                        'Product Updated!',
-                        'success'
-                    );
-
-                }
-            });
-        }
-
-
-    }
+function create() {
+    router.get('/create')
 }
+
+function selectProductToUpdate(product) {
+    data.selectedUpdateProduct = product;
+    data.updateProductModal = !data.updateProductModal;
+}
+
+function selectProductToDelete(product) {
+    data.selectedProduct = product
+    // console.log(product);
+    data.deleteProductModal = !data.deleteProductModal
+}
+
+
+function confirmDeleteProduct() {
+    productToDelete.id = data.selectedProduct.id,
+        router.post('/deleteProduct', productToDelete, {
+            onSuccess: (visit) => {
+                data.deleteProductModal = !data.deleteProductModal
+
+            }
+        });
+}
+
+function submit() {
+    productToUpdate.id = data.selectedUpdateProduct.id;
+
+    productToUpdate.name != '' ? productToUpdate.name : productToUpdate.name = data.selectedUpdateProduct.name;
+    productToUpdate.category != '' ? productToUpdate.category : productToUpdate.category = data.selectedUpdateProduct.category;
+    productToUpdate.description != '' ? productToUpdate.description : productToUpdate.description = data.selectedUpdateProduct.description;
+    productToUpdate.date != '' ? productToUpdate.date : productToUpdate.date = data.selectedUpdateProduct.date;
+
+    router.post('/updateProduct', productToUpdate, {
+        onSuccess: (visit) => {
+            data.updateProductModal = !data.updateProductModal;
+        }
+    });
+}
+watch(
+    () => form,
+    throttle(() => {
+        router.get('/products', pickBy(form), {
+            preserveState: true,
+        });
+    }, 300),
+    { deep: true }
+);
+
 </script>
-<style scoped></style>
+
