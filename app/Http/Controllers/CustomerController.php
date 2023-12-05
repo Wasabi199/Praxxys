@@ -9,6 +9,7 @@ use App\Http\Requests\deleteCartItemFormRequest;
 use App\Http\Requests\QtyActionRequest;
 use App\Models\CustomerCart;
 use App\Models\HistoryTransaction;
+use App\Models\Product;
 use App\Models\User;
 
 use App\Services\NotificationService;
@@ -27,9 +28,11 @@ class CustomerController extends Controller
     {
         $validated_data = $request->validated();
         $user = User::findOrFail(Auth::user()->id);
-        DB::transaction(function () use ($validated_data, $user) {
+        $product = Product::findOrFail($validated_data['product_id']);
+        DB::transaction(function () use ($validated_data, $user, $product) {
             $user->customerCart()->create([
-                'product_id' => $validated_data['product_id']
+                'product_id' => $validated_data['product_id'],
+                'price' => $product->price
             ]);
         });
 
@@ -39,7 +42,7 @@ class CustomerController extends Controller
 
     public function cart()
     {
-        $customerCart = CustomerCart::cartOwner()->limit(5)->paginate(5);
+        $customerCart = CustomerCart::cartOwner(Auth::user()->id)->limit(5)->paginate(5);
         return Inertia::render('PraxxysCustomer/CustomerCart', [
             'CustomerCart' => $customerCart
         ]);
@@ -74,8 +77,7 @@ class CustomerController extends Controller
     public function checkout(checkOutFormRequest $request)
     {
         $validated_data = $request->validated();
-
-        $link = HelpersPaymentService::CheckOut($validated_data);
+        $link = HelpersPaymentService::checkOut($validated_data);
         // 
         return Inertia::location($link);
     }

@@ -25,9 +25,8 @@
                             <label>Product Category</label>
                             <select v-model="productForm.category" class="w-full rounded-md h-8 text-xs">
                                 <option selected disabled>Select Category</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{ category.category }}</option>
+                               
                             </select>
                             <!-- <InputError class="mt-2" :message="productForm.category" /> -->
 
@@ -60,50 +59,7 @@
         </div>
     </Sidebar>
 </template>
-<!-- <script>
-import Sidebar from './Partials/Sidebar.vue';
-import InputError from '@/Components/InputError.vue';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 
-import 'sweetalert2/src/sweetalert2.scss';
-export default {
-    setup() {
-
-    },
-    components: {
-        Sidebar,
-        InputError,
-    },
-    data() {
-        return {
-            productForm: this.$inertia.form({
-                name: '',
-                category: '',
-                description: '',
-                date: '',
-                files: File,
-            })
-        }
-    },
-    methods: {
-        selectImage(e) {
-            this.productForm.files = e.target.files;
-        },
-
-        submit() {
-            this.productForm.post(route('product.submit'), {
-                onSuccess: (visit) => {
-                    Swal.fire(
-                        'Success!',
-                        'Product Saved!',
-                        'success'
-                    )
-                }
-            });
-        }
-    }
-}
-</script> -->
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
 import Sidebar from './Partials/Sidebar.vue';
@@ -114,6 +70,9 @@ import 'sweetalert2/src/sweetalert2.scss';
 import { reactive } from 'vue';
 
 
+const props = defineProps({
+    Categories:Object
+})
 
 const productForm = reactive({
     name: '',

@@ -25,7 +25,7 @@ class QtyActionRequest extends FormRequest
         return [
             //
             'id'=>'required|exists:customer_carts,id',
-            'qty'=>'required'
+            'qty'=>'required|numeric'
         ];
     }
 }

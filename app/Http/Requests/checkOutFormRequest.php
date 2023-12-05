@@ -25,7 +25,8 @@ class checkOutFormRequest extends FormRequest
         return [
             //
             'products'=>'required|array',
-            'total'=>'required'
+            'products.*'=>'required|array',
+            'total'=>'required|numeric'
         ];
 
 
@@ -35,7 +36,8 @@ class checkOutFormRequest extends FormRequest
         return[
             'products.required'=>'Please select atlease 1 item to Checkout',
             'products.array'=>'Invalid Type',
-            'total.required'=>'Total value is required'
+            'total.required'=>'Total value is required',
+            'total.numeric'=>'Total type is invalid'
         ];
     }
 }

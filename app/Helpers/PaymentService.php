@@ -12,40 +12,12 @@ class PaymentService
 {
 
 
-    public static function CheckOut($product)
+    public static function checkOut($product)
     {
 
         try {
-            $qty = 0;
-            $items = [];
-            $cartIds = [];
-            foreach ($product['products'] as $prod) {
-                $qty += $prod['qty'];
-                $cartIds[] = $prod['id'];
-                $items[] =      [
-                    'name' => $prod['name'],
-                    'quantity' => $prod['qty'],
-                    'description' => 'Description of the test product',
-                    'amount' => [
-                        'value' => $prod['price'],
-                        'details' => [
-                            'subtotal' => $prod['price'] * $prod['qty'],
-                            'discount' => 0,
-                            'serviceCharge' => 0,
-                            'shippingFee' => 0,
-                            'tax' => 0
-                        ]
-                    ],
-                    'totalAmount' => [
-                        'currency' => 'PHP',
-                        'value' => $prod['price'] * $prod['qty'],
-                        'details' => [
-                            'subtotal' => $prod['price'] * $prod['qty']
-                        ]
-                    ]
-                ];
-            }
-
+           
+            $items = ItemService::item($product);
 
             $data = [
                 'totalAmount' => [
@@ -59,7 +31,7 @@ class PaymentService
                         'subtotal' => $product['total']
                     ]
                 ],
-                'items' => $items,
+                'items' => $items['items'],
                 'redirectUrl' => [
                     'success' => env("APP_URL") . '/success',
                     'failure' => env("APP_URL") . '/failure',
@@ -83,15 +55,10 @@ class PaymentService
                 ->asJson()
                 ->post();
 
-            DB::transaction(function () use ($response, $product, $cartIds) {
-                HistoryTransaction::create([
-                    'checkout_id' => $response->checkoutId,
-                    'checkout_link' => $response->redirectUrl,
-                    'total_price' => $product['total'],
-                ]);
 
-                CustomerCart::whereIn('id',$cartIds)->delete();
-            });
+                TransactionService::transaction($response, $product, $items);
+
+    
 
             return $response->redirectUrl;
         } catch (\throwable $th) {

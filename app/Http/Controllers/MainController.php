@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\NotificationService;
 use Carbon\Carbon;
@@ -23,8 +24,9 @@ class MainController extends Controller
     {
         $filters = $request::only('search', 'view', 'category');
         $products = Product::filter($filters)->limit($filters['view'] ?? 5)->paginate($filters['view'] ?? 5)->appends($filters);
-
+        $categories = Category::all();
         return Inertia::render('Praxxys/Products', [
+            'Categories'=>$categories,
             'Products' => $products,
             'Filters' => $filters
         ]);
@@ -32,8 +34,11 @@ class MainController extends Controller
 
     public function createProducts()
     {
+        $categories = Category::all();
 
-        return Inertia::render('Praxxys/CreateProduct');
+        return Inertia::render('Praxxys/CreateProduct',[
+            'Categories'=>$categories
+        ]);
     }
 
     public function addProducts(CreateProductRequest $request)

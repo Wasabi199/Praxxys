@@ -13,9 +13,7 @@
                             <label class="my-auto text-xs">Category:</label>
                             <select v-model="form.category" class="rounded-md h-8 my-auto text-xs w-full">
                                 <option selected disabled>Select</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{ category.category }}</option>
                             </select>
                         </div>
                         <div>
@@ -184,6 +182,7 @@ import { router } from '@inertiajs/vue3';
 const props = defineProps({
     Products: Object,
     Filters: Object,
+    Categories:Object
 });
 
 const data = reactive({

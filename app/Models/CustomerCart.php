@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\Auth;
 class CustomerCart extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'product_id',
-        'qty'
+        'qty',
+        'price'
     ];
 
-    public function user():BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -26,10 +28,11 @@ class CustomerCart extends Model
     // }
 
 
-    public function scopeCartOwner($query){
-        $query->where('user_id',Auth::user()->id)->join('products',function($query){
-            $query->on('customer_carts.product_id','=','products.id')
-            ->join('product_images','products.id','=','product_images.product_id');
-        })->select('customer_carts.*','price','name','filename');
+    public function scopeCartOwner($query,$id)
+    {
+        $query->where('user_id', Auth::user()->id)->join('products', function ($query) {
+            $query->on('customer_carts.product_id', '=', 'products.id')
+                ->join('product_images', 'products.id', '=', 'product_images.product_id');
+        })->select('customer_carts.*', 'name', 'filename');
     }
 }
