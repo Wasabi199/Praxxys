@@ -4,26 +4,26 @@
             <div class="">
                 <div>
                     <div class="text-2xl">Create Products</div>
-                    <div class="text-sm text-gray-500"><span class=" text-blue-500">Home</span> / Create Products</div>
+                    <div class="text-sm text-gray-500"><span class="text-blue-500 ">Home</span> / Create Products</div>
                 </div>
                 <br>
-                <div class="w-1/2 shadow-md border rounded-md p-5">
+                <div class="w-1/2 p-5 border rounded-md shadow-md">
                     <form class="space-y-5" method="POST" enctype="multipart/form-data" @submit.prevent="submit">
                         <div>
                             <label>Product Name</label>
-                            <input v-model="productForm.name" type="text" class="w-full rounded-md h-8 text-xs"
+                            <input v-model="productForm.name" type="text" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Name">
                             <!-- <InputError class="mt-2" :message="productForm.name" /> -->
                         </div>
                         <div>
                             <label>Product Price</label>
-                            <input v-model="productForm.price" type="number" class="w-full rounded-md h-8 text-xs"
+                            <input v-model="productForm.price" type="number" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Price">
                             <!-- <InputError class="mt-2" :message="productForm.name" /> -->
                         </div>
                         <div>
                             <label>Product Category</label>
-                            <select v-model="productForm.category" class="w-full rounded-md h-8 text-xs">
+                            <select v-model="productForm.category" class="w-full h-8 text-xs rounded-md">
                                 <option selected disabled>Select Category</option>
                                 <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{ category.category }}</option>
                                
@@ -33,14 +33,14 @@
                         </div>
                         <div>
                             <label>Product Description</label>
-                            <textarea v-model="productForm.description" class="w-full rounded-md h-20 text-xs"
+                            <textarea v-model="productForm.description" class="w-full h-20 text-xs rounded-md"
                                 placeholder="Descriptions..."></textarea>
                             <!-- <InputError class="mt-2" :message="productForm.description" /> -->
 
                         </div>
                         <div>
                             <label>Date</label>
-                            <input v-model="productForm.date" type="date" class="w-full rounded-md h-8 text-xs"
+                            <input v-model="productForm.date" type="date" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Name">
                             <!-- <InputError class="mt-2" :message="productForm.date" /> -->
 
@@ -48,10 +48,10 @@
                         <div>
                             <label>Product Images</label>
                             <input @change="selectImage" multiple type="file"
-                                class="w-full border my-auto rounded-md  text-xs" placeholder="Product Name">
+                                class="w-full my-auto text-xs border rounded-md" placeholder="Product Name">
                         </div>
                         <div class="flex justify-center">
-                            <button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded-md">Submit</button>
+                            <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-md">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -63,10 +63,6 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
 import Sidebar from './Partials/Sidebar.vue';
-import InputError from '@/Components/InputError.vue';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-
-import 'sweetalert2/src/sweetalert2.scss';
 import { reactive } from 'vue';
 
 
