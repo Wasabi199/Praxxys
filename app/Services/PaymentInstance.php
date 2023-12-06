@@ -9,7 +9,8 @@ class PaymentInstance
 {
     public static function getPaymentInstance($validated_data)
     {
-        $payment_method = $validated_data['payment_method'];
+        $payment_method = 'App\\Helpers\\Method\\'.$validated_data['payment_method'];
+        
         $payment = new $payment_method(new ItemService, new TransactionService);
         $link = $payment->checkOut($validated_data);
         return $link;

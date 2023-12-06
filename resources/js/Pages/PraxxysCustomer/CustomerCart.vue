@@ -82,7 +82,7 @@
         <Modal :show="data.paymentModal" :closeable="true" @close="data.paymentModal = !data.paymentModal">
             <div class="p-5">
                 <div class="flex justify-between">
-                    <div class="font-bold">DELETE ITEM</div>
+                    <div class="font-bold">CHOOSE PAYMENT</div>
                     <div>
                         <svg @click="data.paymentModal = !data.paymentModal" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 cursor-pointer">

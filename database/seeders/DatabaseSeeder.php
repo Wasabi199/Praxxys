@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         PaymentGateway::create([
             'gateway_name' => 'Paymaya',
-            'gateway_method' => 'App\Helpers\Method\PayMaya',
+            'gateway_method' => 'PayMaya',
         ]);
     }
 }
