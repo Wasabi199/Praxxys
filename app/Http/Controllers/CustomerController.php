@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ItemService;
 use App\Helpers\PaymentService as HelpersPaymentService;
+use App\Helpers\TransactionService;
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\checkOutFormRequest;
 use App\Http\Requests\deleteCartItemFormRequest;
@@ -20,9 +22,13 @@ use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
 use PaymentService;
 
+use App\Services\PaymentInstance;
+
 class CustomerController extends Controller
 {
     //
+
+    private $paymentMethod = 'Paymaya';
 
     public function addToCart(AddToCartRequest $request)
     {
@@ -74,11 +80,12 @@ class CustomerController extends Controller
         return Redirect::back()->with('message', [NotificationService::notificationItem('success', '', 'Delete item from Cart Successful')]);
     }
 
+
     public function checkout(checkOutFormRequest $request)
     {
+ 
         $validated_data = $request->validated();
-        $link = HelpersPaymentService::checkOut($validated_data);
-        // 
+        $link =  PaymentInstance::getPaymentInstance($this->paymentMethod, $validated_data);
         return Inertia::location($link);
     }
 

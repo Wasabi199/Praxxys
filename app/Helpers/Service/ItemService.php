@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\Service;
 
 class ItemService{
 
-    public static function item($product){
+    public function item($validated_data){
 
         $qty = 0;
         $items = [];
         $cartIds = [];
 
-        foreach ($product['products'] as $prod) {
+        foreach ($validated_data['products'] as $prod) {
             $qty += $prod['qty'];
             $cartIds[] = $prod['id'];
             $items[] =      [

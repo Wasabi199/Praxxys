@@ -18,8 +18,6 @@ use Inertia\Inertia;
 class MainController extends Controller
 {
     //
-
-
     public function products(QueryRequest $request)
     {
         $filters = $request::only('search', 'view', 'category');

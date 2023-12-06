@@ -29,14 +29,14 @@ class Product extends Model
 
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['search'] ?? null, function ($query, $search) {
+        $query->join('categories','products.category','=','categories.id')->select('products.*','categories.category')->when($filters['search'] ?? null, function ($query, $search) {
             $query->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
             });
         })->when($filters['category'] ?? null, function ($query, $category) {
             $query->where(function ($query) use ($category) {
-                $query->where('category', $category);
+                $query->where('products.category', $category);
             });
         });
     }

@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         Product::factory(50)->has(ProductImage::factory(1),'productImage')->create();
 
-        $categories = ['shoe','bag','gadgets'];
+        $categories = ['Shoe','Bag','Gadgets'];
 
         foreach($categories as $category){
             Category::create([

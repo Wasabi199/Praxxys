@@ -3,28 +3,28 @@
         <div class="p-4">
             <div>
                 <div class="text-2xl">Products</div>
-                <div class="text-sm text-gray-500"><span class=" text-blue-500">Home</span> / Products</div>
+                <div class="text-sm text-gray-500"><span class="text-blue-500 ">Home</span> / Products</div>
             </div>
             <!-- Table Start -->
             <div class="p-2 space-y-4">
                 <div class="flex justify-between">
                     <div class="flex gap-4">
-                        <div class=" ">
+                        <div class="">
                             <label class="my-auto text-xs">Category:</label>
-                            <select v-model="form.category" class="rounded-md h-8 my-auto text-xs w-full">
+                            <select v-model="form.category" class="w-full h-8 my-auto text-xs rounded-md">
                                 <option selected disabled>Select</option>
                                 <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{ category.category }}</option>
                             </select>
                         </div>
                         <div>
-                            <label class="text-xs my-auto">Search:</label>
+                            <label class="my-auto text-xs">Search:</label>
                             <input v-model="form.search" type="text" placeholder="search"
-                                class="rounded-md my-auto h-8 text-xs w-full">
+                                class="w-full h-8 my-auto text-xs rounded-md">
                         </div>
                     </div>
                     <div>
                         <br>
-                        <button @click="create" class="py-2 px-4 bg-blue-500 text-white rounded-md">Create</button>
+                        <button @click="create" class="px-4 py-2 text-white bg-blue-500 rounded-md">Create</button>
                     </div>
                 </div>
                 <div class="space-y-4">
@@ -58,14 +58,14 @@
                                 <td class="px-6 py-4">{{ product.name }}</td>
                                 <td class="px-6 py-4">{{ product.category }}</td>
                                 <td class="px-6 py-4">{{ product.description }}</td>
-                                <td class="px-6 py-4 text-start">{{ product.date }}<br>{{ product.time }}</td>
+                                <td class="px-6 py-4 text-start">{{ new Date(product.date).toLocaleDateString() }}<br>{{ product.time }}</td>
                                 <td class="py-4 space-x-2">
                                     <button @click="selectProductToUpdate(product)" type="button"
-                                        class="bg-blue-500 p-4 rounded-md text-sm text-white font-bold">
+                                        class="p-4 text-sm font-bold text-white bg-blue-500 rounded-md">
                                         Edit
                                     </button>
                                     <button @click="selectProductToDelete(product)" type="button"
-                                        class="bg-red-500 p-4 rounded-md text-sm text-white font-bold">
+                                        class="p-4 text-sm font-bold text-white bg-red-500 rounded-md">
                                         Delete
                                     </button>
                                 </td>
@@ -75,7 +75,7 @@
                     <div class="flex justify-between">
                         <div>
                             <label class="font-extrabold text-xs font-mono text-[#013d77]">View:</label>
-                            <select v-model="form.view" class="rounded-md w-fit text-xs h-8">
+                            <select v-model="form.view" class="h-8 text-xs rounded-md w-fit">
                                 <option value="10">10</option>
                             </select>
                         </div>
@@ -90,7 +90,7 @@
             @close="data.deleteProductModal = !data.deleteProductModal">
             <div class="p-5">
                 <div class="flex justify-between">
-                    <span class="font-semibold text-xl">DELETE</span>
+                    <span class="text-xl font-semibold">DELETE</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 cursor-pointer"
                         @click="data.deleteProductModal = !data.deleteProductModal">
@@ -103,9 +103,9 @@
                         data.selectedProduct.name }}</span>?</div>
                     <div class="flex justify-around">
                         <button @click="data.deleteProductModal = !data.deleteProductModal"
-                            class="bg-red-500 p-4 rounded-md text-sm text-white font-bold">CANCEL</button>
+                            class="p-4 text-sm font-bold text-white bg-red-500 rounded-md">CANCEL</button>
                         <button @click="confirmDeleteProduct"
-                            class="bg-green-500 p-4 rounded-md text-sm text-white font-bold">CONFIRM</button>
+                            class="p-4 text-sm font-bold text-white bg-green-500 rounded-md">CONFIRM</button>
                     </div>
                 </div>
 
@@ -116,7 +116,7 @@
             @close="data.updateProductModal = !data.updateProductModal">
             <div class="p-5">
                 <div class="flex justify-between">
-                    <span class="font-semibold text-xl">UPDATE</span>
+                    <span class="text-xl font-semibold">UPDATE</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-8 h-8 cursor-pointer"
                         @click="data.updateProductModal = !data.updateProductModal">
@@ -124,16 +124,16 @@
                             d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class=" p-5">
+                <div class="p-5 ">
                     <form class="space-y-5" method="POST" enctype="multipart/form-data" @submit.prevent="submit">
                         <div>
                             <label>Product Name</label>
-                            <input v-model="productToUpdate.name" type="text" class="w-full rounded-md h-8 text-xs"
+                            <input v-model="productToUpdate.name" type="text" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Name">
                         </div>
                         <div>
                             <label>Product Category</label>
-                            <select v-model="productToUpdate.category" class="w-full rounded-md h-8 text-xs">
+                            <select v-model="productToUpdate.category" class="w-full h-8 text-xs rounded-md">
                                 <option selected disabled>Select Category</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -143,23 +143,23 @@
                         </div>
                         <div>
                             <label>Product Description</label>
-                            <textarea v-model="productToUpdate.description" class="w-full rounded-md h-20 text-xs"
+                            <textarea v-model="productToUpdate.description" class="w-full h-20 text-xs rounded-md"
                                 placeholder="Descriptions..."></textarea>
 
                         </div>
                         <div>
                             <label>Date</label>
-                            <input v-model="productToUpdate.date" type="date" class="w-full rounded-md h-8 text-xs"
+                            <input v-model="productToUpdate.date" type="date" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Name">
 
                         </div>
                         <div>
                             <label>Product Images</label>
                             <input @change="selectImage" multiple type="file"
-                                class="w-full border my-auto rounded-md  text-xs" placeholder="Product Name">
+                                class="w-full my-auto text-xs border rounded-md" placeholder="Product Name">
                         </div>
                         <div class="flex justify-center">
-                            <button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded-md">UPDATE</button>
+                            <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-md">UPDATE</button>
                         </div>
                     </form>
                 </div>
