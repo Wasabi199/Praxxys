@@ -26,6 +26,7 @@ class checkOutFormRequest extends FormRequest
             //
             'products'=>'required|array',
             'products.*'=>'required|array',
+            'payment_method'=>'required|string',
             'total'=>'required|numeric'
         ];
 

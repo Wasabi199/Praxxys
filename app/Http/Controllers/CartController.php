@@ -2,33 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ItemService;
-use App\Helpers\PaymentService as HelpersPaymentService;
-use App\Helpers\TransactionService;
 use App\Http\Requests\AddToCartRequest;
-use App\Http\Requests\checkOutFormRequest;
 use App\Http\Requests\deleteCartItemFormRequest;
 use App\Http\Requests\QtyActionRequest;
 use App\Models\CustomerCart;
-use App\Models\HistoryTransaction;
+use App\Models\PaymentGateway;
 use App\Models\Product;
 use App\Models\User;
-
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
-use PaymentService;
 
-use App\Services\PaymentInstance;
-
-class CustomerController extends Controller
+class CartController extends Controller
 {
     //
-
-    private $paymentMethod = 'Paymaya';
 
     public function addToCart(AddToCartRequest $request)
     {
@@ -49,8 +38,10 @@ class CustomerController extends Controller
     public function cart()
     {
         $customerCart = CustomerCart::cartOwner(Auth::user()->id)->limit(5)->paginate(5);
+        $gateway_payment = PaymentGateway::all();
         return Inertia::render('PraxxysCustomer/CustomerCart', [
-            'CustomerCart' => $customerCart
+            'CustomerCart' => $customerCart,
+            'GatewayPayment' => $gateway_payment
         ]);
     }
 
@@ -78,38 +69,5 @@ class CustomerController extends Controller
 
 
         return Redirect::back()->with('message', [NotificationService::notificationItem('success', '', 'Delete item from Cart Successful')]);
-    }
-
-
-    public function checkout(checkOutFormRequest $request)
-    {
- 
-        $validated_data = $request->validated();
-        $link =  PaymentInstance::getPaymentInstance($this->paymentMethod, $validated_data);
-        return Inertia::location($link);
-    }
-
-
-    public function historyTransaction()
-    {
-        $history = HistoryTransaction::limit(10)->paginate(10);
-        return Inertia::render('PraxxysCustomer/HistoryTransaction', [
-            'History' => $history
-        ]);
-    }
-
-    public function success()
-    {
-        return Inertia::render('PraxxysCustomer/Transactions/Success');
-    }
-
-    public function failure()
-    {
-        return Inertia::render('PraxxysCustomer/Transactions/Failure');
-    }
-
-    public function canceled()
-    {
-        return Inertia::render('PraxxysCustomer/Transactions/Canceled');
     }
 }

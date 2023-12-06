@@ -14,6 +14,7 @@ class HistoryTransaction extends Model
         'checkout_id',
         'checkout_link',
         'total_price',
+        'payment_method'
     ];
 
     public function historyTransactionData():HasMany{

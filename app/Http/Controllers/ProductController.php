@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\DeleteProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -10,21 +9,22 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Services\NotificationService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Request as QueryRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
-class MainController extends Controller
+class ProductController extends Controller
 {
     //
-    public function products(QueryRequest $request)
+    public function products(FacadesRequest $request)
     {
         $filters = $request::only('search', 'view', 'category');
         $products = Product::filter($filters)->limit($filters['view'] ?? 5)->paginate($filters['view'] ?? 5)->appends($filters);
         $categories = Category::all();
         return Inertia::render('Praxxys/Products', [
-            'Categories'=>$categories,
+            'Categories' => $categories,
             'Products' => $products,
             'Filters' => $filters
         ]);
@@ -34,8 +34,8 @@ class MainController extends Controller
     {
         $categories = Category::all();
 
-        return Inertia::render('Praxxys/CreateProduct',[
-            'Categories'=>$categories
+        return Inertia::render('Praxxys/CreateProduct', [
+            'Categories' => $categories
         ]);
     }
 
@@ -57,18 +57,18 @@ class MainController extends Controller
                 if (is_array($validated_data['files'])) {
                     foreach ($validated_data['files'] as $file) {
                         $product->productImage()->create([
-                            'filename' =>'storage/'.$file->storePublicly('ProductImages',  ['disk' => 'public'])
+                            'filename' => 'storage/' . $file->storePublicly('ProductImages',  ['disk' => 'public'])
                         ]);
                     }
                 } else {
                     $product->productImage()->create([
-                        'filename' => 'storage/'.$validated_data['files']->storePublicly('ProductImages',  ['disk' => 'public'])
+                        'filename' => 'storage/' . $validated_data['files']->storePublicly('ProductImages',  ['disk' => 'public'])
                     ]);
                 }
             }
         });
 
-        return Redirect::route('products')->with('message',[NotificationService::notificationItem('success','','Product Created Success')]);
+        return Redirect::route('products')->with('message', [NotificationService::notificationItem('success', '', 'Product Created Success')]);
     }
 
     public function deleteProduct(DeleteProductRequest $request)
@@ -80,7 +80,7 @@ class MainController extends Controller
             $product->delete();
         });
 
-        return Redirect::back()->with('message',[NotificationService::notificationItem('success','','Product Deleted Success')]);
+        return Redirect::back()->with('message', [NotificationService::notificationItem('success', '', 'Product Deleted Success')]);
     }
 
     public function updateProduct(UpdateProductRequest $request)
@@ -112,11 +112,6 @@ class MainController extends Controller
             }
         });
 
-        return Redirect::back()->with('message',[NotificationService::notificationItem('success','','Product Updated Success')]);
-    }
-
-    public function videoPlayer()
-    {
-        return Inertia::render('Praxxys/VideoPlayer');
+        return Redirect::back()->with('message', [NotificationService::notificationItem('success', '', 'Product Updated Success')]);
     }
 }

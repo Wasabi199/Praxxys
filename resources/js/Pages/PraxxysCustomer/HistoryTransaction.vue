@@ -17,6 +17,7 @@
                         </th>
                         <th>LINK</th>
                         <th>PRICE</th>
+                        <!-- <th>PAYMENT METHOD</th> -->
                         <th>DATE AND TIME</th>
                     
                     </tr>
@@ -29,6 +30,7 @@
                         <td class="px-6 py-4">{{ history.checkout_id }}</td>
                         <td class="py-4 ">{{history.checkout_link }}</td>
                         <td class="py-4 ">₱{{history.total_price }}.00</td>
+                        <!-- <td class="py-4 ">{{history.payment_gateway }}</td> -->
                         <td class="py-4 ">{{new Date(history.created_at).toLocaleDateString()}}<br>{{new Date(history.created_at).toLocaleTimeString()}}</td>
 
                     </tr>

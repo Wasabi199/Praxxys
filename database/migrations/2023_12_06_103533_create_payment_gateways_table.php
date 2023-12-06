@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('history_transactions', function (Blueprint $table) {
+        Schema::create('payment_gateways', function (Blueprint $table) {
             $table->id();
-            $table->string('checkout_id');
-            $table->string('checkout_link');
-            $table->integer('total_price');
-            $table->string('payment_method');
+            $table->string('gateway_name');
+            $table->string('gateway_method');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('history_transactions');
+        Schema::dropIfExists('payment_gateways');
     }
 };

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Category;
+use App\Models\PaymentGateway;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\User;
@@ -24,23 +25,28 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'username' => 'Admin',
             'email' => 'admin@admin.com',
-            'usertype'=>1
+            'usertype' => 1
         ]);
 
         User::factory()->create([
             'username' => 'Customer',
             'email' => 'customer@customer.com',
-            'usertype'=>2
+            'usertype' => 2
         ]);
 
-        Product::factory(50)->has(ProductImage::factory(1),'productImage')->create();
+        Product::factory(50)->has(ProductImage::factory(1), 'productImage')->create();
 
-        $categories = ['Shoe','Bag','Gadgets'];
+        $categories = ['Shoe', 'Bag', 'Gadgets'];
 
-        foreach($categories as $category){
+        foreach ($categories as $category) {
             Category::create([
-                'category'=>$category
+                'category' => $category
             ]);
         }
+
+        PaymentGateway::create([
+            'gateway_name' => 'Paymaya',
+            'gateway_method' => 'App\Helpers\Method\PayMaya',
+        ]);
     }
 }

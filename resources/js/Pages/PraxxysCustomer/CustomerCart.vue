@@ -4,7 +4,7 @@
             <span>Cart</span>
         </template>
         <div class="p-4" v-if="$page.props.errors">
-            <div class="bg-red-500 p-2 rounded-lg text-white" v-for="errors in $page.props.errors" v-bind:key="errors.key">
+            <div class="p-2 text-white bg-red-500 rounded-lg" v-for="errors in $page.props.errors" v-bind:key="errors.key">
                 <span>• {{ errors }}</span>
             </div>
         </div>
@@ -56,7 +56,7 @@
                 </svg>
                 <span>₱{{ totalPrice }}.00</span>
             </div>
-            <button @click="checkout()" class="px-6 py-4 m-2 text-white bg-orange-700 rounded-md">Check Out</button>
+            <button @click="data.paymentModal = !data.paymentModal" class="px-6 py-4 m-2 text-white bg-orange-700 rounded-md">Check Out</button>
 
         </div>
         <Modal :show="data.deleteModal" :closeable="true" @close="data.deleteModal = !data.deleteModal">
@@ -79,6 +79,24 @@
                 </div>
             </div>
         </Modal>
+        <Modal :show="data.paymentModal" :closeable="true" @close="data.paymentModal = !data.paymentModal">
+            <div class="p-5">
+                <div class="flex justify-between">
+                    <div class="font-bold">DELETE ITEM</div>
+                    <div>
+                        <svg @click="data.paymentModal = !data.paymentModal" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="py-10 text-center">Are you sure You want to delete <span class="font-bold">{{
+                    data.cartItemToDelete.name }}</span> to Cart?</div>
+                <div class="flex justify-center" v-for="gateway in GatewayPayment" v-bind:key="gateway.id">
+                    <button class="px-6 py-2 text-white bg-blue-500 rounded-md" @click="checkout(gateway.gateway_method)">{{ gateway.gateway_name }}</button>
+                  </div>
+            </div>
+        </Modal>
     </AppLayout>
 </template>
 <script setup lang="ts">
@@ -88,12 +106,14 @@ import { computed, reactive } from 'vue';
 import Modal from '@/Components/Modal.vue';
 
 const props = defineProps({
-    CustomerCart: { type: Object }
+    CustomerCart: Object,
+    GatewayPayment:Object
 })
 
 const data = reactive({
     deleteModal: false,
-    cartItemToDelete: Object
+    cartItemToDelete: Object,
+    paymentModal:false
 });
 
 const qtyForm = reactive({
@@ -117,6 +137,7 @@ const totalPrice = computed(() => {
 
 const checkOutForm = reactive({
     products: [],
+    payment_method:'',
     total: totalPrice
 });
 
@@ -152,8 +173,14 @@ function confirmDelete() {
     })
 }
 
-function checkout() {
-    router.post('/checkout', checkOutForm)
+function checkout(payment_method) {
+    checkOutForm.payment_method = payment_method;
+
+    router.post('/checkout', checkOutForm,{
+        onFinish:(visit)=>{
+            data.paymentModal = false;
+        }
+    })
 }
 
 

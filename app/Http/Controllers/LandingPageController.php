@@ -21,7 +21,7 @@ class LandingPageController extends Controller
             return Inertia::render('PraxxysCustomer/EcomerceView', [
                 'Products' => $products
             ]);
-        }else{
+        } else {
             return Redirect::route('/login');
         }
     }
