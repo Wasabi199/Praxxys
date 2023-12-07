@@ -18,6 +18,7 @@ class ProductImageFactory extends Factory
     {
         return [
             //
+            'filename'=>'/Images/Sticker1.png'
         ];
     }
 }

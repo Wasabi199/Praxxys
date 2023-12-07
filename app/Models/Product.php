@@ -15,6 +15,7 @@ class Product extends Model
         'description',
         'date',
         'time',
+        'price'
     ];
 
     public function productImage(): HasMany
@@ -22,16 +23,20 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    // public function customerCart():HasMany{
+    //     return $this->hasMany(CustomerCart::class);
+    // }
+
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['search'] ?? null, function ($query, $search) {
+        $query->join('categories','products.category','=','categories.id')->select('products.*','categories.category')->when($filters['search'] ?? null, function ($query, $search) {
             $query->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
             });
         })->when($filters['category'] ?? null, function ($query, $category) {
             $query->where(function ($query) use ($category) {
-                $query->where('category', $category);
+                $query->where('products.category', $category);
             });
         });
     }

@@ -1,10 +1,15 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckOutController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\HistoryTransaction;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\MainController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,23 +23,34 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
     return Redirect::route('login');
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
-    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
-    Route::get('/products', [MainController::class, 'products'])->name('products');
-    Route::get('/create', [MainController::class, 'createProducts'])->name('create.products');
+Route::get('/dashboard', [LandingPageController::class, 'index'])->name('dashboard');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'Admin'])->group(function () {
+    Route::get('/products', [ProductController::class, 'products'])->name('products');
+    Route::get('/create', [ProductController::class, 'createProducts'])->name('create.products');
 
-    Route::post('/addProducts', [MainController::class, 'addProducts'])->name('product.submit');
-    Route::delete('/deleteProduct', [MainController::class, 'deleteProduct'])->name('product.delete');
-    Route::post('/updateProduct', [MainController::class, 'updateProduct'])->name('product.update');
+    Route::post('/addProducts', [ProductController::class, 'addProducts'])->name('product.submit');
+    Route::post('/deleteProduct', [ProductController::class, 'deleteProduct'])->name('product.delete');
+    Route::post('/updateProduct', [ProductController::class, 'updateProduct'])->name('product.update');
 
-    Route::get('/videoPlayer',[MainController::class,'videoPlayer'])->name('videoplayer');
+    Route::post('/deleteproductimage',[ProductController::class,'deleteImage'])->name('delete.product');
+
+    Route::get('/videoPlayer', [VideoController::class, 'videoPlayer'])->name('videoplayer');
+});
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'Customer'])->group(function () {
+
+    Route::post('/addtocart',[CartController::class,'addToCart'])->name('addToCart');
+    Route::get('/cart',[CartController::class,'cart'])->name('cart');
+    Route::post('/updateqty',[CartController::class,'qtyAction'])->name('updateqty');
+    Route::post('/deleteCartItem',[CartController::class,'deleteCartItem'])->name('deleteCartItem');
+    
+    Route::get('/historyTransaction',[HistoryTransaction::class,'historyTransaction'])->name('historytransaction');
+    
+    Route::post('/checkout',[CheckOutController::class,'checkout'])->name('checkout');
+    Route::get('/success',[CheckOutController::class,'success'])->name('success');
+    Route::get('/failure',[CheckOutController::class,'failure'])->name('failure');
+    Route::get('/canceled',[CheckOutController::class,'canceled'])->name('canceled');
 });

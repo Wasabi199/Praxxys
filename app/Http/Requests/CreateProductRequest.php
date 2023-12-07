@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateProductRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class CreateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::user()->usertype == 1;
     }
 
     /**
@@ -23,11 +24,19 @@ class CreateProductRequest extends FormRequest
     {
         return [
             //
-            'name'=>'required',
-            'category'=>'required',
-            'description'=>'required',
-            'date'=>'required',
-            'files.*'=>'file|mimes:jpg,png,jpeg,pdf',
+            'name' => 'required|string',
+            'category' => 'required|numeric',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+            'date' => 'required|string',
+            'files.*' => 'file|mimes:jpg,png,jpeg,pdf',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'category.numeric' => 'Please Select Category'
         ];
     }
 }
