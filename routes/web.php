@@ -35,6 +35,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::post('/deleteProduct', [ProductController::class, 'deleteProduct'])->name('product.delete');
     Route::post('/updateProduct', [ProductController::class, 'updateProduct'])->name('product.update');
 
+    Route::post('/deleteproductimage',[ProductController::class,'deleteImage'])->name('delete.product');
+
     Route::get('/videoPlayer', [VideoController::class, 'videoPlayer'])->name('videoplayer');
 });
 

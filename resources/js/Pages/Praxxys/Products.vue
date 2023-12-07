@@ -58,11 +58,11 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ product.id }}
                                 </th>
-                                <td class="px-6 py-4">{{ product.name }}</td>
-                                <td class="px-6 py-4">₱{{ product.price }}.00</td>
-                                <td class="px-6 py-4">{{ product.category }}</td>
-                                <td class="px-6 py-4">{{ product.description }}</td>
-                                <td class="px-6 py-4 text-start">{{ new Date(product.date).toLocaleDateString() }}<br>{{
+                                <td>{{ product.name }}</td>
+                                <td>₱{{ product.price }}.00</td>
+                                <td>{{ product.category }}</td>
+                                <td>{{ product.description }}</td>
+                                <td>{{ new Date(product.date).toLocaleDateString() }}<br>{{
                                     product.time }}</td>
                                 <td class="py-4 space-x-2">
                                     <button @click="selectProductToUpdate(product)" type="button"
@@ -94,6 +94,7 @@
         <Modal :show="data.deleteProductModal" :closeable="true"
             @close="data.deleteProductModal = !data.deleteProductModal">
             <div class="p-5">
+
                 <div class="flex justify-between">
                     <span class="text-xl font-semibold">DELETE</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -131,6 +132,15 @@
                 </div>
                 <div class="p-5 ">
                     <form class="space-y-5" method="POST" enctype="multipart/form-data" @submit.prevent="submit">
+                        <div v-if="data.selectedUpdateProduct.product_image[0]" class="flex justify-center gap-4">
+                            <img class="h-52" :src="data.selectedUpdateProduct.product_image[0].filename ?? ''" />
+                            <svg @click="deleteProductImage(data.selectedUpdateProduct.product_image[0].id)"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6 my-auto cursor-pointer text-red-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+
+                        </div>
                         <div>
                             <label>Product Name</label>
                             <input v-model="productToUpdate.name" type="text" class="w-full h-8 text-xs rounded-md"
@@ -155,7 +165,7 @@
                                     category.category }}</option>
 
                             </select>
-                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{
+                            <span v-if="$page.props.errors.category" class="text-sm text-red-500">• {{
                                 $page.props.errors.category }}</span>
 
                         </div>
@@ -163,7 +173,7 @@
                             <label>Product Description</label>
                             <textarea v-model="productToUpdate.description" class="w-full h-20 text-xs rounded-md"
                                 :placeholder="data.selectedUpdateProduct.description"></textarea>
-                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{
+                            <span v-if="$page.props.errors.description" class="text-sm text-red-500">• {{
                                 $page.props.errors.description }}</span>
 
 
@@ -181,6 +191,10 @@
                             <input @change="selectImage" multiple type="file"
                                 class="w-full my-auto text-xs border rounded-md" placeholder="Product Name">
                         </div>
+                        <div v-if="data.url">
+                            <img class="h-20" :src="data.url ?? ''" />
+                        </div>
+
                         <div class="flex justify-center">
                             <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-md">UPDATE</button>
                         </div>
@@ -207,6 +221,7 @@ const props = defineProps({
 });
 
 const data = reactive({
+    url: '',
     deleteProductModal: false,
     updateProductModal: false,
 
@@ -234,6 +249,15 @@ const form = reactive({
     search: props.Filters.search,
     category: props.Filters.category,
 });
+
+const imageToDelete = reactive({
+    id: Number
+})
+
+function selectImage(e) {
+    productToUpdate.files = e.target.files[0];
+    data.url = URL.createObjectURL(productToUpdate.files);
+}
 
 function create() {
     router.get('/create')
@@ -272,9 +296,25 @@ function submit() {
 
     router.post('/updateProduct', productToUpdate, {
         onSuccess: (visit) => {
-            data.updateProductModal = !data.updateProductModal;
+            productToUpdate.name = '',
+                productToUpdate.price = '',
+                productToUpdate.category = '',
+                productToUpdate.description = '',
+                productToUpdate.date = '',
+                productToUpdate.files = File,
+
+                data.url = '',
+
+                data.updateProductModal = !data.updateProductModal;
         }
     });
+}
+
+
+function deleteProductImage(id) {
+    imageToDelete.id = id
+
+    router.post('/deleteproductimage', imageToDelete)
 }
 watch(
     () => form,

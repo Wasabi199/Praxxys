@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateProductRequest extends FormRequest
+class DeleteImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             //
-            'id'=>'required|exists:products,id',
-            'name'=>'required|string',
-            'price'=>'required|numeric',
-            'category'=>'required|numeric',
-            'description'=>'required|string',
-            'date'=>'required|string',
-            'files.*'=>'file|mimes:jpg,png,jpeg,pdf',
+            'id'=>'required|exists:product_images,id'
         ];
     }
 }

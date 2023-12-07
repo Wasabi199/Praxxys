@@ -24,12 +24,19 @@ class CreateProductRequest extends FormRequest
     {
         return [
             //
-            'name'=>'required|string',
-            'category'=>'required|numeric',
-            'price'=>'required|numeric',
-            'description'=>'required|string',
-            'date'=>'required|string',
-            'files.*'=>'file|mimes:jpg,png,jpeg,pdf',
+            'name' => 'required|string',
+            'category' => 'required|numeric',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+            'date' => 'required|string',
+            'files.*' => 'file|mimes:jpg,png,jpeg,pdf',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'category.numeric' => 'Please Select Category'
         ];
     }
 }

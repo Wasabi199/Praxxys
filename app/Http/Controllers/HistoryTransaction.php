@@ -11,7 +11,7 @@ class HistoryTransaction extends Controller
     //
     public function historyTransaction()
     {
-        $history = ModelsHistoryTransaction::limit(10)->paginate(10);
+        $history = ModelsHistoryTransaction::orderBy('created_at','DESC')->limit(10)->paginate(10);
         return Inertia::render('PraxxysCustomer/HistoryTransaction', [
             'History' => $history
         ]);

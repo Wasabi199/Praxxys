@@ -50,6 +50,9 @@
                             <input @change="selectImage" multiple type="file"
                                 class="w-full my-auto text-xs border rounded-md" placeholder="Product Name">
                         </div>
+                        <div v-if="data.url">
+                            <img class="h-20" :src="data.url??''"/>
+                        </div>
                         <div class="flex justify-center">
                             <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-md">Submit</button>
                         </div>
@@ -66,8 +69,13 @@ import Sidebar from './Partials/Sidebar.vue';
 import { reactive } from 'vue';
 
 
+
 const props = defineProps({
     Categories:Object
+})
+
+const data = reactive({
+    url:'',
 })
 
 const productForm = reactive({
@@ -80,7 +88,8 @@ const productForm = reactive({
 });
 
 function selectImage(e) {
-    productForm.files = e.target.files;
+    productForm.files = e.target.files[0];
+    data.url = URL.createObjectURL(productForm.files);
 }
 
 function submit() {
