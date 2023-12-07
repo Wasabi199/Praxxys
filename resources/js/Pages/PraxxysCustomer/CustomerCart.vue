@@ -90,8 +90,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="py-10 text-center">Are you sure You want to delete <span class="font-bold">{{
-                    data.cartItemToDelete.name }}</span> to Cart?</div>
+                <div class="py-10 text-center">Are you sure You want to checkout:<br> <span class="font-bold" v-for="product in checkOutForm.products" v-bind:key="product.id">{{ product.name }}<br></span> <br>to Cart?</div>
                 <div class="flex justify-center" v-for="gateway in GatewayPayment" v-bind:key="gateway.id">
                     <button class="px-6 py-2 text-white bg-blue-500 rounded-md" @click="checkout(gateway.gateway_method)">{{ gateway.gateway_name }}</button>
                   </div>

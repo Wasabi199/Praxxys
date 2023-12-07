@@ -13,13 +13,13 @@
                             <label>Product Name</label>
                             <input v-model="productForm.name" type="text" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Name">
-                            <!-- <InputError class="mt-2" :message="productForm.name" /> -->
+                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{ $page.props.errors.name }}</span>
                         </div>
                         <div>
                             <label>Product Price</label>
                             <input v-model="productForm.price" type="number" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Price">
-                            <!-- <InputError class="mt-2" :message="productForm.name" /> -->
+                                <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{ $page.props.errors.name }}</span>
                         </div>
                         <div>
                             <label>Product Category</label>
@@ -28,21 +28,21 @@
                                 <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{ category.category }}</option>
                                
                             </select>
-                            <!-- <InputError class="mt-2" :message="productForm.category" /> -->
+                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{ $page.props.errors.name }}</span>
 
                         </div>
                         <div>
                             <label>Product Description</label>
                             <textarea v-model="productForm.description" class="w-full h-20 text-xs rounded-md"
                                 placeholder="Descriptions..."></textarea>
-                            <!-- <InputError class="mt-2" :message="productForm.description" /> -->
+                                <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{ $page.props.errors.name }}</span>
 
                         </div>
                         <div>
                             <label>Date</label>
                             <input v-model="productForm.date" type="date" class="w-full h-8 text-xs rounded-md"
                                 placeholder="Product Name">
-                            <!-- <InputError class="mt-2" :message="productForm.date" /> -->
+                                <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{ $page.props.errors.name }}</span>
 
                         </div>
                         <div>

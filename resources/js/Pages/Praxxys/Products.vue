@@ -13,7 +13,8 @@
                             <label class="my-auto text-xs">Category:</label>
                             <select v-model="form.category" class="w-full h-8 my-auto text-xs rounded-md">
                                 <option selected disabled>Select</option>
-                                <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{ category.category }}</option>
+                                <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{
+                                    category.category }}</option>
                             </select>
                         </div>
                         <div>
@@ -43,6 +44,8 @@
 
                                     </div>
                                 </th>
+                                <th>PRICE</th>
+
                                 <th>CATEGORY</th>
                                 <th>DESCRIPTION</th>
                                 <th>DATE AND TIME</th>
@@ -56,9 +59,11 @@
                                     {{ product.id }}
                                 </th>
                                 <td class="px-6 py-4">{{ product.name }}</td>
+                                <td class="px-6 py-4">₱{{ product.price }}.00</td>
                                 <td class="px-6 py-4">{{ product.category }}</td>
                                 <td class="px-6 py-4">{{ product.description }}</td>
-                                <td class="px-6 py-4 text-start">{{ new Date(product.date).toLocaleDateString() }}<br>{{ product.time }}</td>
+                                <td class="px-6 py-4 text-start">{{ new Date(product.date).toLocaleDateString() }}<br>{{
+                                    product.time }}</td>
                                 <td class="py-4 space-x-2">
                                     <button @click="selectProductToUpdate(product)" type="button"
                                         class="p-4 text-sm font-bold text-white bg-blue-500 rounded-md">
@@ -129,28 +134,46 @@
                         <div>
                             <label>Product Name</label>
                             <input v-model="productToUpdate.name" type="text" class="w-full h-8 text-xs rounded-md"
-                                placeholder="Product Name">
+                                :placeholder="data.selectedUpdateProduct.name">
+                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{ $page.props.errors.name
+                            }}</span>
+
+                        </div>
+                        <div>
+                            <label>Product Price</label>
+                            <input v-model="productToUpdate.price" type="text" class="w-full h-8 text-xs rounded-md"
+                                :placeholder="data.selectedUpdateProduct.price">
+                            <span v-if="$page.props.errors.price" class="text-sm text-red-500">• {{ $page.props.errors.price
+                            }}</span>
+
                         </div>
                         <div>
                             <label>Product Category</label>
                             <select v-model="productToUpdate.category" class="w-full h-8 text-xs rounded-md">
                                 <option selected disabled>Select Category</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option v-for="category in Categories" v-bind:key="category.id" :value="category.id">{{
+                                    category.category }}</option>
+
                             </select>
+                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{
+                                $page.props.errors.category }}</span>
 
                         </div>
                         <div>
                             <label>Product Description</label>
                             <textarea v-model="productToUpdate.description" class="w-full h-20 text-xs rounded-md"
-                                placeholder="Descriptions..."></textarea>
+                                :placeholder="data.selectedUpdateProduct.description"></textarea>
+                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{
+                                $page.props.errors.description }}</span>
+
 
                         </div>
                         <div>
                             <label>Date</label>
-                            <input v-model="productToUpdate.date" type="date" class="w-full h-8 text-xs rounded-md"
-                                placeholder="Product Name">
+                            <input v-model="productToUpdate.date" type="date" class="w-full h-8 text-xs rounded-md">
+                            <span v-if="$page.props.errors.name" class="text-sm text-red-500">• {{ $page.props.errors.name
+                            }}</span>
+
 
                         </div>
                         <div>
@@ -174,15 +197,13 @@ import Pagination from './Partials/Pagination/Pagination.vue';
 import Sidebar from './Partials/Sidebar.vue';
 import { pickBy, throttle } from "lodash";
 import Modal from '@/Components/Modal.vue';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import InputError from '@/Components/InputError.vue';
-import { defineComponent, reactive, watch } from 'vue';
+import { reactive, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     Products: Object,
     Filters: Object,
-    Categories:Object
+    Categories: Object
 });
 
 const data = reactive({
@@ -201,6 +222,7 @@ const productToDelete = reactive({
 const productToUpdate = reactive({
     id: Number,
     name: '',
+    price: '',
     category: '',
     description: '',
     date: '',
@@ -243,6 +265,7 @@ function submit() {
     productToUpdate.id = data.selectedUpdateProduct.id;
 
     productToUpdate.name != '' ? productToUpdate.name : productToUpdate.name = data.selectedUpdateProduct.name;
+    productToUpdate.price != '' ? productToUpdate.price : productToUpdate.price = data.selectedUpdateProduct.price;
     productToUpdate.category != '' ? productToUpdate.category : productToUpdate.category = data.selectedUpdateProduct.category;
     productToUpdate.description != '' ? productToUpdate.description : productToUpdate.description = data.selectedUpdateProduct.description;
     productToUpdate.date != '' ? productToUpdate.date : productToUpdate.date = data.selectedUpdateProduct.date;
